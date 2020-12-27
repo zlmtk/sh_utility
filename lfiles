@@ -1,0 +1,27 @@
+
+#!/bin/sh
+SIZE=20
+PATH_c=.
+
+usage() {
+	echo "Return last modified files"
+	echo "Usage: $0 [-p <path>] [-n <number files returned>] [-h help ]" 1>&2; exit 1;
+	 }
+
+#Deal with options
+while getopts "hp:s:" arg; do
+  case $arg in
+    h)
+       usage 
+      ;;
+    p)
+      PATH_C=$OPTARG
+      ;;
+
+     n)
+      SIZE=$OPTARG
+      ;;
+  esac
+done
+
+find $PATH_C -type f -exec stat --format '%Y :%y %n' "{}" \; | sort -nr | cut -d: -f2- | head -$SIZE
